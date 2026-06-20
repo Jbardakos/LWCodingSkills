@@ -36,7 +36,7 @@ fills in `TODO` sections, and returns working code grounded in the actual SDK.
 |-------|----------|--------|-----------|
 | [`lscript-modeler`](#lscript-modeler) | LScript | Modeler | `cs_basic.ls` · `meshedit_basic.ls` · `scan_modify.ls` · `full_tool.ls` |
 | [`lscript-layout`](#lscript-layout) | LScript | Layout | `motion_handler.ls` · `channel_filter.ls` · `generic.ls` |
-| [`c-plugin-modeler`](#c-plugin-modeler) | C / C++ | Modeler `.p` | `commandseq_plugin.c` · `meshedit_plugin.c` · `build_mac.sh` |
+| [`c-plugin-modeler`](#c-plugin-modeler) | C / C++ | Modeler `.p` | `commandseq_plugin.c` · `meshedit_plugin.c` · `meshedittool_plugin.c` · `build_mac.sh` |
 | [`c-plugin-layout`](#c-plugin-layout) | C / C++ | Layout `.p` | `layout_handler.c` |
 | [`python-lightwave`](#python-lightwave) | Python 3 | Layout PCore | `generic_plugin.py` · `displacement_plugin.py` · `master_plugin.py` |
 | [`nodes`](#nodes) | C / C++ | Node Editor | `node_plugin.c` |
@@ -64,9 +64,14 @@ dependency declaration, and scene I/O.
 ### c-plugin-modeler
 
 Compiled Modeler plugins (`.p` files). CommandSequence for command-string automation,
-MeshDataEdit for direct point/polygon access. Full `MeshEditOp` function table,
-`polyScan` / `pointScan` callback patterns, XPanels UI, `GlobalFunc` access,
-macOS universal binary build script, and Gatekeeper quarantine fix.
+MeshDataEdit for direct point/polygon access, and the **interactive `MeshEditTool`
+class** — live, draggable viewport handles with the `count`/`down`/`move`/`up`/`draw`
+callbacks and the `test`/`build`/`end` preview-to-bake commit cycle. Full `MeshEditOp`
+function table, `polyScan` / `pointScan` callback patterns, XPanels UI (modal and
+attached numeric panel), `GlobalFunc` access, macOS universal binary build script
+(with the required `-D_MACOS`), and Gatekeeper quarantine fix. Includes hard-won
+gotchas for interactive handles: cumulative `deltaSnap`, view-plane `posSnap` depth
+flattening, picking perpendicular to the view axis, and cap-winding handedness.
 
 ### c-plugin-layout
 
